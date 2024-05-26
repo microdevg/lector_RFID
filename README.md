@@ -32,6 +32,8 @@ El driver crea la tarea rc522_task() que llama periódicamente a la función ` r
 
 ```
 
+
+
 static void rc522_task(void* arg)
 {
     rc522_handle_t rc522 = (rc522_handle_t) arg;

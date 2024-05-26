@@ -1,6 +1,7 @@
 #include <esp_log.h>
 #include <inttypes.h>
 #include "rc522.h"
+#include "wifi.h"
 
 static const char* TAG = "rc522-demo";
 
@@ -44,8 +45,16 @@ static void RFID_reader_init(){
 
 
 
+static void callback_wifi_connected(){
+    printf("WIFI Ok\n");
+}
+
+
+
+
 int app_main()
 {
+    wifi_connect("esp_test","esp_test",callback_wifi_connected,NULL);
     RFID_reader_init();
 
     while(1){
