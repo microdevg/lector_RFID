@@ -1,6 +1,6 @@
 #include "wifi.h"
 #include "esp_wifi.h"
-
+#include "freertos/task.h"
 #include "nvs_flash.h"
 
 #define RCONN_TRY_MAX                   10
@@ -20,35 +20,38 @@ static void event_handler(void* arg, esp_event_base_t event_base,
 {
     // WiFi esta listo para conectarse a una red en modo STATION.
     if(event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START){
-        printf("WiFi modo station listo para conectarse a red\n");
-        esp_wifi_connect();}
+        printf("\nWiFi modo station listo para conectarse a red\n");
+        esp_wifi_connect();
+        return;
+    }
     
     else if(event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED){
             if(reconnect_try < RCONN_TRY_MAX){
-                printf("Wifi desconectado, intentando reconexion:%u / %u\n",
+                printf("\nWifi desconectado, intentando reconexion:%u / %u\n",
                 reconnect_try,
                 RCONN_TRY_MAX);
                 
                 reconnect_try ++;
                 esp_wifi_connect();}
             else{
-                printf("Fallaron los intentos de reconexion\n");
+                printf("\nFallaron los intentos de reconexion\n");
                 }
             return;
     }
    
     if (event_id == WIFI_EVENT_STA_CONNECTED){
-    printf("WiFi conectado\n");
     reconnect_try = 0;
-    CHECK_RUN_F( __callback_connection);
-    return;
+    printf("\nwifi connectado\n");
     }
     if (event_id == WIFI_EVENT_STA_DISCONNECTED){
-    printf("WiFi desconectado\n");
     CHECK_RUN_F(__callback_disconnection);
     return;
     }
+    if(event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP){
+    printf("\nTengo IP, puedo trabajar\n");
+    CHECK_RUN_F( __callback_connection);
 
+    }
 }
 
 
@@ -87,6 +90,13 @@ esp_err_t config_nvs_pre_connection(){
                                                         &event_handler,
                                                         NULL,
                                                         &instance_any_id));
+    esp_event_handler_instance_t instance_got_ip;
+    ESP_ERROR_CHECK(esp_event_handler_instance_register(IP_EVENT,
+                                                        IP_EVENT_STA_GOT_IP,
+                                                        &event_handler,
+                                                        NULL,
+                                                        &instance_got_ip));
+
 
                                                  
     wifi_config_t wifi_config = {0};
