@@ -86,3 +86,7 @@ static void rc522_task(void* arg)
 En las pruebas realizada la librería funciona bien y obtiene el ID de la tarjeta correctamente.
 
 
+#### Nuevas pruebas
+ 
+En wifi.c se agrego  evento de IP obtenida, el callback de WiFi connected se llama en ese momento.
+

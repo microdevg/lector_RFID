@@ -662,7 +662,7 @@ static void rc522_task(void* arg)
     while(rc522->running) {
         if(! rc522->scanning) {
             // Idling...
-            vTaskDelay(100 / portTICK_PERIOD_MS);
+            vTaskDelay(200 / portTICK_PERIOD_MS);
             continue;
         }
 
