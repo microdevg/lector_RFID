@@ -41,8 +41,9 @@ En wifi.c se agrego  evento de IP obtenida, el callback de WiFi connected se lla
 
 
 ### Funcionamiento
+El lector RFID se subscribe a 3 topicos:
 ```
-El lector RFID se subscribe a 3 TOPICOS:
+
 #define RES_OK              "/RES/OK"
 #define RES_FAIL            "/RES/FAIL"
 #define RES_UNKNOWN         "/RES/UNKNOWN"
@@ -51,3 +52,14 @@ y publica en:
 ```
 #define TOPIC_PUB           "/REQ"        // Topico para enviar solicitudes
 ````
+Cuando un mensaje llega verifica que el contenido del mensaje coincida con  el __PRODUCT_ID__ coincida.. Si no lo hace, se ignora el mensaje, es un mensaje para otro lector.
+```
+
+   //Primer verifico que la respuesta sea para mi con el codigo PRODUCT_ID
+    // Si no se cumple la igualda retorno, el mensaje no es para mi lector RFID
+    if( strcmp(data,PRODUCT_ID) != 0) {
+    printf("%s != %s\n",data,PRODUCT_ID);
+    return;  // Retorno sin hacer nada.
+    }
+```
+

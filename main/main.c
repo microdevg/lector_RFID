@@ -124,11 +124,15 @@ static void get_data( char* data,  char* topic){
     if( strcmp(topic,RES_FAIL) == 0){
     // Usuario autorizado
     printf("\n Usuario  NO autorizado\n");
+    gpio_set_level(GPIO_LED,0);
+
     return;
    }
     if( strcmp(topic,RES_UNKNOWN) == 0){
     // Usuario autorizado
     printf("\n Usuario desconocido\n");
+    gpio_set_level(GPIO_LED,0);
+
     return;
    }
 }
