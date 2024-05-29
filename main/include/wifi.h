@@ -14,8 +14,8 @@
  * 
  * @param WIFI_ID Nombre de la red WiFi
  * @param PASS  Contraseña de la red
- * @param cb_conn Funcion callback se llama cuando el dispositivo se conecto a la red
- * @param cb_desconn  Funcion callback se llama cuando el dispositivo se desconecto de la red.
+ * @param cb_conn Función callback se llama cuando el dispositivo se conecto a la red
+ * @param cb_desconn  Función callback se llama cuando el dispositivo se desconecto de la red.
  * @return esp_err_t 
  */
  esp_err_t wifi_connect(const char* WIFI_ID, const char * PASS,

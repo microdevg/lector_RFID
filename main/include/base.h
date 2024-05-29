@@ -7,12 +7,23 @@
 #include <stdint.h>
 #include <inttypes.h>
 #include "esp_event.h"
+#include <esp_log.h>
+#include <inttypes.h>
 
 
 
+
+/**
+ * @brief Callback de recepción de datos con parámetros.
+ * 
+ */
 typedef void (*callback_data_t)(char* data, char* topic);
 
 
+/**
+ * @brief Callback sin parametros
+ * 
+ */
 typedef void (*esp_callback_t)(void);
 
 
