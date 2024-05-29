@@ -54,14 +54,14 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         printf("MQTT_EVENT_PUBLISHED, msg_id=%d", event->msg_id);
         break;
     case MQTT_EVENT_DATA:
+   
         int len_d = event->data_len;
         int len_t = event->topic_len;
         static char b_data[100]={0};
         static char b_topic[100]={0};
         
         strncpy(b_data,event->data,len_d); 
-        strncpy(b_topic,event->topic,len_d);
-
+        strncpy(b_topic,event->topic,len_t);
         b_data[len_d]= 0;
         b_topic[len_t]= 0;
         if(_on_received_data !=NULL)_on_received_data(b_data,b_topic);

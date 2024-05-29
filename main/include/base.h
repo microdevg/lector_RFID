@@ -21,7 +21,7 @@ typedef void (*callback_data_t)(char* data, char* topic);
 
 
 /**
- * @brief Callback sin parametros
+ * @brief Callback sin parámetros.
  * 
  */
 typedef void (*esp_callback_t)(void);

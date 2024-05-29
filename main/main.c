@@ -6,13 +6,19 @@
 
 
 
-#define TOPIC_PUB           "IFTS14/REQ"        // Topico para enviar solicitudes
-#define TOPIC_SUB           "IFTS14/RES"        // Topico para recibir respuestas
-#define PRODUCT_ID           12345678            // Numero de 8 cifras que describe el lector RFID
-#define LEN_BUFFER      100
+#define TOPIC_PUB           "/REQ"        // Topico para enviar solicitudes
+#define TOPIC_SUB           "/RES"        // Topico para recibir respuestas
+#define RES_OK              "/RES/OK"
+#define RES_FAIL            "/RES/FAIL"
+#define RES_UNKNOWN         "/RES/UNKNOWN"
 
+#define PRODUCT_ID           "12345678"            // Numero de 8 cifras que describe el lector RFID
+#define LEN_BUFFER           100
+#define GPIO_LED             2
 
-
+#define RESOK               1
+#define RESFAIL             0
+#define RESUNKNOWN          2
 // Variables
 
 static const char* TAG = "Lector de tarjetas";
@@ -40,9 +46,10 @@ static void rc522_handler(void* arg, esp_event_base_t base, int32_t event_id, vo
     switch(event_id) {
         case RC522_EVENT_TAG_SCANNED: {
                 rc522_tag_t* tag = (rc522_tag_t*) data->ptr;
-                sprintf(buffer,"Verificar tarjeta [sn: %" PRIu64 "]", tag->serial_number);
+                sprintf(buffer,"%" PRIu64 "", tag->serial_number);
                 ESP_LOGI(TAG,"%s\n",buffer );
                 mqtt_publish(buffer,TOPIC_PUB,2,0);
+
             }
             break;
     }
@@ -51,7 +58,8 @@ static void rc522_handler(void* arg, esp_event_base_t base, int32_t event_id, vo
 
 
 // Defino declaraciones de funciones. 
-//La implementacion se realiza en la parte inferior del archivo.
+//La implementación se realiza en la parte inferior del archivo.
+
 static void RFID_reader_init();
 
 static void get_data( char* data,  char* topic);
@@ -60,13 +68,14 @@ static void mqtt_connected();
 
 static void callback_wifi_connected();
 
+static void lec_config();
 
 
 
 int app_main()
 {
+    lec_config();
     wifi_connect(WIFI_CREDENTIALS_ID,WIFI_CREDENTIALS_PASS,callback_wifi_connected,NULL);
-    RFID_reader_init();
 
     while(1){
         vTaskDelay(1000/ portTICK_PERIOD_MS);
@@ -80,6 +89,12 @@ int app_main()
 
 
 
+
+static void lec_config(){
+    gpio_set_direction(GPIO_LED,GPIO_MODE_OUTPUT);
+    gpio_set_level(GPIO_LED,0);
+}
+
 static void RFID_reader_init(){
  rc522_create(&config, &scanner);
  rc522_register_events(scanner, RC522_EVENT_ANY, rc522_handler, NULL);
@@ -88,11 +103,45 @@ static void RFID_reader_init(){
 
 static void get_data( char* data,  char* topic){
     printf("\n[%s] %s\n",topic,data);
+
+    //Primer verifico que la respuesta sea para mi con el codigo PRODUCT_ID
+    // Si no se cumple la igualda retorno, el mensaje no es para mi lector RFID
+    if( strcmp(data,PRODUCT_ID) != 0) {
+    printf("%s != %s\n",data,PRODUCT_ID);
+    return;
+    }
+    printf("%s == %s\n",data,PRODUCT_ID);
+
+
+
+   // Si llegue aqui, el mensaje es para mi asi que tengo que procesarlo.
+   if( strcmp(topic,RES_OK) == 0){
+    // Usuario autorizado
+    printf("\n Usuario autorizado\n");
+    gpio_set_level(GPIO_LED,1);
+    return;
+   }
+    if( strcmp(topic,RES_FAIL) == 0){
+    // Usuario autorizado
+    printf("\n Usuario  NO autorizado\n");
+    return;
+   }
+    if( strcmp(topic,RES_UNKNOWN) == 0){
+    // Usuario autorizado
+    printf("\n Usuario desconocido\n");
+    return;
+   }
 }
 
 static void mqtt_connected(){
     printf("init mqtt\n");
-    mqtt_subcribe(TOPIC_SUB,2);
+    // Me conector a todos los tópicos necesarios.
+    mqtt_subcribe(RES_OK,2);
+    mqtt_subcribe(RES_FAIL,2);
+    mqtt_subcribe(RES_UNKNOWN,2);
+
+    RFID_reader_init();
+
 
 }
 
