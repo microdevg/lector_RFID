@@ -3,22 +3,8 @@
 #include "mqtt.h"
 #include "wifi.h"
 #include "wifi_credentials.h"
+#include "config.h"
 
-
-
-#define TOPIC_PUB           "/REQ"        // Topico para enviar solicitudes
-#define TOPIC_SUB           "/RES"        // Topico para recibir respuestas
-#define RES_OK              "/RES/OK"
-#define RES_FAIL            "/RES/FAIL"
-#define RES_UNKNOWN         "/RES/UNKNOWN"
-
-#define PRODUCT_ID           "12345678"            // Numero de 8 cifras que describe el lector RFID
-#define LEN_BUFFER           100
-#define GPIO_LED             2
-
-#define RESOK               1
-#define RESFAIL             0
-#define RESUNKNOWN          2
 // Variables
 
 static const char* TAG = "Lector de tarjetas";
@@ -49,8 +35,9 @@ static void rc522_handler(void* arg, esp_event_base_t base, int32_t event_id, vo
                 sprintf(buffer,"[%s] %" PRIu64 "",PRODUCT_ID, tag->serial_number);
                 ESP_LOGI(TAG,"%s\n",buffer );
                 mqtt_publish(buffer,TOPIC_PUB,2,0);
-
+            break;
             }
+        default:
             break;
     }
 }
@@ -130,7 +117,7 @@ static void get_data( char* data,  char* topic){
    }
     if( strcmp(topic,RES_UNKNOWN) == 0){
     // Usuario autorizado
-    printf("\n Usuario desconocido\n");
+    printf("\n Error desconocido\n");
     gpio_set_level(GPIO_LED,0);
 
     return;
