@@ -88,6 +88,8 @@ static void action_unknown();
 // Es algo parecido a una interrupción por software (basado en eventos de FreeRTOS)
 static void rc522_handler(void* arg, esp_event_base_t base, int32_t event_id, void* event_data)
 {
+    rc522_event_data_t* data = (rc522_event_data_t*) event_data;
+
     switch(event_id) {
         case RC522_EVENT_TAG_SCANNED: {
                 rc522_tag_t* tag = (rc522_tag_t*) data->ptr;
