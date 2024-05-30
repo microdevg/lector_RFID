@@ -39,15 +39,6 @@ En las pruebas realizada la librería funciona bien y obtiene el ID de la tarjet
 En wifi.c se agrego  evento de IP obtenida, el callback de WiFi connected se llama en ese momento.
 
 
-
-### Funcionamiento
-El lector RFID se subscribe a 3 topicos:
-```
-
-#define RES_OK              "/RES/OK"
-#define RES_FAIL            "/RES/FAIL"
-#define RES_UNKNOWN         "/RES/UNKNOWN"
-```
 y publica en:
 ```
 #define TOPIC_PUB           "/REQ"        // Topico para enviar solicitudes
@@ -56,10 +47,29 @@ Cuando un mensaje llega verifica que el contenido del mensaje coincida con  el _
 ```
 
    //Primer verifico que la respuesta sea para mi con el codigo PRODUCT_ID
-    // Si no se cumple la igualda retorno, el mensaje no es para mi lector RFID
+    // Si no se cumple la igualad retorno, el mensaje no es para mi lector RFID
     if( strcmp(data,PRODUCT_ID) != 0) {
     printf("%s != %s\n",data,PRODUCT_ID);
     return;  // Retorno sin hacer nada.
     }
 ```
 
+
+### Diagrama de funcionamiento del dispositivo.
+
+![diagrama](./imgs/diagrama.png)
+
+
+#### El lector RFID se subscribe a 3 tópicos:
+
+En este diagrama podemos ver como el dispositivo lector se conecta con el servidor [HiveMQ](https://www.hivemq.com/) para suscribirse a los siguientes tópicos:
+
+```
+#define RES_OK              "/RES/OK"
+#define RES_FAIL            "/RES/FAIL"
+#define RES_UNKNOWN         "/RES/UNKNOWN"
+```
+ 
+#### Publicaciones en REQUEST
+
+Cuando el dispositivo lee una tarjeta RFID valida publica el código de la tarjeta `RFID` y su código de producto `PRODUCT_ID`
