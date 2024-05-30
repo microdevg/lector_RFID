@@ -1,6 +1,7 @@
 #ifndef _CONFIG_H
 #define _CONFIG_H
-
+#include "base.h"
+#include  <string.h>
 /**
  * @brief Parámetros para configuración la conexión con servidor MQTT
  * 
@@ -23,5 +24,15 @@
 #define MSG_FAIL        "USUARIO NO AUTORIZADO\n"
 #define MSG_UNKNOWN     "ERROR DESCONOCIDO"
 
+
+// Si s1 y s2 son iguales, ejecuto f
+
+
+#define EQUAL(s1,s2)                (strcmp(s1,s2) == 0)
+#define CHECK(s1,s2,f)            if( EQUAL(s1,s2)) f()   
+
+
+
+#define REQUEST_FORMAT    "[%s] %" PRIu64 ""
 
 #endif

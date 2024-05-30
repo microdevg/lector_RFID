@@ -22,17 +22,76 @@ rc522_config_t config = {
 };
 
 
+// Defino declaraciones de funciones. 
+//La implementación se realiza en la parte inferior del archivo.
+
+
+/**
+ * @brief Configuro el lector RFID
+ * 
+ */
+static void RFID_reader_init();
+
+
+
+/**
+ * Función callback. Se llama cuando el dispositivo recibe mensajes desde
+ * algún tópico al que este suscrito.
+ * @param data String con el mensaje enviado.
+ * @param topic Canal al que se envió el mensaje.
+ */
+static void get_data( char* data,  char* topic);
+
+
+/**
+ * @brief Funcion callback. Se llama cuando el dispositivo se conecto al servidor MQTT.
+ * 
+ */
+static void mqtt_connected();
+
+/**
+ * @brief Función callback. Se llama cuando el dispositivo se conecta a la red WiFi
+ * y esta listo para conectarse a internet.
+ * 
+ */
+static void callback_wifi_connected();
+
+
+/**
+ * @brief Configuración del gpio que maneja el LED de la placa.
+ * 
+ */
+static void lec_config();
+
+/**
+ * @brief Function que se la tarjeta RFID leída es de un USUARIO AUTORIZADO.
+ * 
+ */
+static void action_ok();
+
+/**
+ * @brief Function que se la tarjeta RFID leída es de un USUARIO NO AUTORIZADO.
+ * 
+ */
+static void action_fail();
+
+
+/**
+ * @brief Función que se llama cuando el servidor No pudo procesar la 
+ * tarjeta RFID enviada.
+ * 
+ */
+static void action_unknown();
+
 
 // Cuando detecto una tarjeta genero un evento que se procesa aquí.
 // Es algo parecido a una interrupción por software (basado en eventos de FreeRTOS)
 static void rc522_handler(void* arg, esp_event_base_t base, int32_t event_id, void* event_data)
 {
-    rc522_event_data_t* data = (rc522_event_data_t*) event_data;
-
     switch(event_id) {
         case RC522_EVENT_TAG_SCANNED: {
                 rc522_tag_t* tag = (rc522_tag_t*) data->ptr;
-                sprintf(buffer,"[%s] %" PRIu64 "",PRODUCT_ID, tag->serial_number);
+                sprintf(buffer,REQUEST_FORMAT,PRODUCT_ID, tag->serial_number);
                 ESP_LOGI(TAG,"%s\n",buffer );
                 mqtt_publish(buffer,TOPIC_PUB,2,0);
             break;
@@ -44,20 +103,6 @@ static void rc522_handler(void* arg, esp_event_base_t base, int32_t event_id, vo
 
 
 
-// Defino declaraciones de funciones. 
-//La implementación se realiza en la parte inferior del archivo.
-
-static void RFID_reader_init();
-
-static void get_data( char* data,  char* topic);
-
-static void mqtt_connected();
-
-static void callback_wifi_connected();
-
-static void lec_config();
-
-
 
 int app_main()
 {
@@ -66,9 +111,7 @@ int app_main()
 
     while(1){
         vTaskDelay(1000/ portTICK_PERIOD_MS);
-    }
-
-   
+    }   
     return 0;
 }
 
@@ -76,6 +119,7 @@ int app_main()
 
 
 
+// Implementaciones
 
 static void lec_config(){
     gpio_set_direction(GPIO_LED,GPIO_MODE_OUTPUT);
@@ -90,38 +134,19 @@ static void RFID_reader_init(){
 
 static void get_data( char* data,  char* topic){
     printf("\n[%s] %s\n",topic,data);
-
-    //Primer verifico que la respuesta sea para mi con el codigo PRODUCT_ID
-    // Si no se cumple la igualda retorno, el mensaje no es para mi lector RFID
+    //Primer verifico que la respuesta sea para mi con el código PRODUCT_ID
+    // Si no se cumple la igualad retorno, el mensaje no es para mi lector RFID
     if( strcmp(data,PRODUCT_ID) != 0) {
     printf("%s != %s\n",data,PRODUCT_ID);
     return;
     }
-    printf("%s == %s\n",data,PRODUCT_ID);
+    //SI no coincide el  PRODUCT_ID, ignoro el mensaje
+    if(! EQUAL(data,PRODUCT_ID))return; 
 
-
-
-   // Si llegue aqui, el mensaje es para mi asi que tengo que procesarlo.
-   if( strcmp(topic,RES_OK) == 0){
-    // Usuario autorizado
-    printf("\n Usuario autorizado\n");
-    gpio_set_level(GPIO_LED,1);
-    return;
-   }
-    if( strcmp(topic,RES_FAIL) == 0){
-    // Usuario autorizado
-    printf("\n Usuario  NO autorizado\n");
-    gpio_set_level(GPIO_LED,0);
-
-    return;
-   }
-    if( strcmp(topic,RES_UNKNOWN) == 0){
-    // Usuario autorizado
-    printf("\n Error desconocido\n");
-    gpio_set_level(GPIO_LED,0);
-
-    return;
-   }
+   // Proceso el mensaje.
+    CHECK(topic,RES_OK,action_ok);
+    CHECK(topic,RES_FAIL,action_fail);
+    CHECK(topic,RES_UNKNOWN,action_unknown);
 }
 
 static void mqtt_connected(){
@@ -141,3 +166,18 @@ static void callback_wifi_connected(){
     mqtt_init(MQTT_URL,mqtt_connected,NULL,get_data);
 }
 
+
+static void action_ok(){
+    printf("\n Usuario autorizado\n");
+    gpio_set_level(GPIO_LED,1);
+}
+
+static void action_fail(){
+      // Usuario autorizado
+    printf("\n Usuario  NO autorizado\n");
+    gpio_set_level(GPIO_LED,0);
+}
+
+static void action_unknown(){
+    printf("Error inesperado\n");
+}
