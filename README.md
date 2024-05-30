@@ -1,7 +1,8 @@
-## Librería para el modulo lector de tarjetas RFID.
+## Proyecto lector RFID con conexión mediante protocolo MQTT.
 
-## En este ejemplo se muestra como usar la librería para leer tarjetas RFID.  
-El driver genera una task aparte donde realiza el proceso de lectura de manera periódica.
+En este proyecto tenemos un lector de tarjetas RFID que publica las tarjetas leídas en un cierto tópico. Un servicio Backend recibe esa publicación, verifica que el código RFID pertenezca a un usuario autorizado y publica una respuesta.
+
+## Conexión del modulo RFID    
 
 En la configuración por defecto usamos el puerto SPI3 con los siguientes pines:
 ```
@@ -16,12 +17,15 @@ rc522_config_t config = {
 };
 ```
 
-Revisar que su placa de desarrollo coincida con el siguiente pinout.
-
+La placa utilizada para realizar las pruebas tiene la siguiente distribución de pines.
 ![pinout_esp32](./imgs/esp32_pinout.jpg)
 
 
-### Circuito montado
+Revisar que su placa de desarrollo coincida con el siguiente pinout.
+
+
+
+### Imagen del circuito montado
 
 ![circuito](./imgs/circuito.jpg)
 
@@ -29,40 +33,24 @@ Revisar que su placa de desarrollo coincida con el siguiente pinout.
 
 
 
-### Pruebas
-
-En las pruebas realizada la librería funciona bien y obtiene el ID de la tarjeta correctamente.
-
-
-#### Nuevas pruebas
- 
-En wifi.c se agrego  evento de IP obtenida, el callback de WiFi connected se llama en ese momento.
-
-
-y publica en:
-```
-#define TOPIC_PUB           "/REQ"        // Topico para enviar solicitudes
-````
-Cuando un mensaje llega verifica que el contenido del mensaje coincida con  el __PRODUCT_ID__ coincida.. Si no lo hace, se ignora el mensaje, es un mensaje para otro lector.
-```
-
-   //Primer verifico que la respuesta sea para mi con el codigo PRODUCT_ID
-    // Si no se cumple la igualad retorno, el mensaje no es para mi lector RFID
-    if( strcmp(data,PRODUCT_ID) != 0) {
-    printf("%s != %s\n",data,PRODUCT_ID);
-    return;  // Retorno sin hacer nada.
-    }
-```
-
-
 ### Diagrama de funcionamiento del dispositivo.
 
 ![diagrama](./imgs/diagrama.png)
 
 
-#### El lector RFID se subscribe a 3 tópicos:
 
-En este diagrama podemos ver como el dispositivo lector se conecta con el servidor [HiveMQ](https://www.hivemq.com/) para suscribirse a los siguientes tópicos:
+
+
+
+
+## ESP32: lector RFID
+
+
+
+
+### Suscripción
+
+El dispositivo lector se conecta con el servidor [HiveMQ](https://www.hivemq.com/) para suscribirse a los siguientes tópicos:
 
 ```
 #define RES_OK              "/RES/OK"
@@ -70,6 +58,26 @@ En este diagrama podemos ver como el dispositivo lector se conecta con el servid
 #define RES_UNKNOWN         "/RES/UNKNOWN"
 ```
  
-#### Publicaciones en REQUEST
+### Publicaciones en REQUEST
 
 Cuando el dispositivo lee una tarjeta RFID valida publica el código de la tarjeta `RFID` y su código de producto `PRODUCT_ID`
+
+
+
+### Procesamiento de respuestas
+
+#### Verifico PRODUCT_ID 
+Cuando un mensaje llega el dispositivo verifica que el contenido del mensaje coincida con  el __PRODUCT_ID__. Si no lo hace, se ignora el mensaje  (es un mensaje para otro lector).
+
+
+#### Realizar acciones
+En caso de que el __PRODUCT_ID__ coincida, dependiendo del topico realizaremos las siguientes acciones:
+-   __RES/OK__:  Imprimo usuario autorizado .
+-   __RES/FAIL__: Imprimo usuario NO autorizado.
+-   __RES/UNKNOWN__: Imprimo error inesperado.
+
+
+
+
+## Backend 
+El __Backend__ sera el encargado de recibir los mensajes provenientes de los dispositivos ESP32, verificar si el código `RFID` pertenece a un usuario autorizado  o no. En caso positivo el __Backend__ publicara como respuesta el `PRODUCT_ID` en el tópico `RES/OK`, caso contrario lo hara en `RES/FAIL`. En caso de error imprevisto en el servidor el mensaje sera publicado en `RES/UNKNOWN`.

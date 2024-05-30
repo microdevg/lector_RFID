@@ -46,7 +46,7 @@ static void rc522_handler(void* arg, esp_event_base_t base, int32_t event_id, vo
     switch(event_id) {
         case RC522_EVENT_TAG_SCANNED: {
                 rc522_tag_t* tag = (rc522_tag_t*) data->ptr;
-                sprintf(buffer,"%" PRIu64 "", tag->serial_number);
+                sprintf(buffer,"[%s] %" PRIu64 "",PRODUCT_ID, tag->serial_number);
                 ESP_LOGI(TAG,"%s\n",buffer );
                 mqtt_publish(buffer,TOPIC_PUB,2,0);
 
