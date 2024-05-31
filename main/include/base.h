@@ -12,6 +12,12 @@
 
 
 
+/**
+ * @brief Callback de recepción de código RFID.
+ * 
+ */
+typedef void (*callback_RFID_t)(uint64_t rfid);
+
 
 /**
  * @brief Callback de recepción de datos con parámetros.

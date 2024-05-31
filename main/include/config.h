@@ -33,6 +33,6 @@
 
 
 
-#define REQUEST_FORMAT    "[%s] %" PRIu64 ""
+#define REQUEST_FORMAT    "\n[%s] %" PRIu64 ""
 
 #endif
