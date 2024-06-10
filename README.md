@@ -2,6 +2,8 @@
 
 En este proyecto tenemos un lector de tarjetas RFID que publica las tarjetas leídas en un cierto tópico. Un servicio Backend recibe esa publicación, verifica que el código RFID pertenezca a un usuario autorizado y publica una respuesta.
 
+### Documentacion: [link](https://exquisite-kangaroo-2adbdb.netlify.app/files.html)
+
 ## Conexión del modulo RFID    
 
 En la configuración por defecto usamos el puerto SPI3 con los siguientes pines:
@@ -53,9 +55,9 @@ Revisar que su placa de desarrollo coincida con el siguiente pinout.
 El dispositivo lector se conecta con el servidor [HiveMQ](https://www.hivemq.com/) para suscribirse a los siguientes tópicos:
 
 ```
-#define RES_OK              "/RES/OK"
-#define RES_FAIL            "/RES/FAIL"
-#define RES_UNKNOWN         "/RES/UNKNOWN"
+#define RES_OK              "{PRODUCT_ID}/RES/OK"
+#define RES_FAIL            "{PRODUCT_ID}/RES/FAIL"
+#define RES_UNKNOWN         "{PRODUCT_ID}/RES/UNKNOWN"
 ```
  
 ### Publicaciones en REQUEST
@@ -80,4 +82,4 @@ En caso de que el __PRODUCT_ID__ coincida, dependiendo del topico realizaremos l
 
 
 ## Backend 
-El __Backend__ sera el encargado de recibir los mensajes provenientes de los dispositivos ESP32, verificar si el código `RFID` pertenece a un usuario autorizado  o no. En caso positivo el __Backend__ publicara como respuesta el `PRODUCT_ID` en el tópico `RES/OK`, caso contrario lo hara en `RES/FAIL`. En caso de error imprevisto en el servidor el mensaje sera publicado en `RES/UNKNOWN`.
+El __Backend__ sera el encargado de recibir los mensajes provenientes de los dispositivos ESP32, verificar si el código `RFID` pertenece a un usuario autorizado  o no. En caso positivo el __Backend__ publicara como respuesta el `PRODUCT_ID` en el tópico `{PRODUCT_ID}/RES/OK`, caso contrario lo hara en `{PRODUCT_ID}/RES/FAIL`. En caso de error imprevisto en el servidor el mensaje sera publicado en `{PRODUCT_ID}/RES/UNKNOWN`.
