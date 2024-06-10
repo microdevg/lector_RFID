@@ -1,0 +1,492 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.11.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Lector RFID: Referencia del archivo main/keypad.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Lector RFID<span id="projectnumber">&#160;0.1</span>
+   </div>
+   <div id="projectbrief">Sistema de control de acceso con tarjea RFID.</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.11.0 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() { codefold.init(0); });
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Buscar',false);
+  $(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function(){ initResizable(false); });
+/* @license-end */
+</script>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_5c982d53a68cdbcd421152b4020263a9.html">main</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div id="doc-content">
+<div class="header">
+  <div class="summary">
+<a href="#define-members">defines</a> &#124;
+<a href="#func-members">Funciones</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">Referencia del archivo keypad.c</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="keypad_8h_source.html">keypad.h</a>&quot;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;driver/gpio.h&gt;</code><br />
+<code>#include &lt;freertos/FreeRTOS.h&gt;</code><br />
+<code>#include &lt;freertos/task.h&gt;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+defines</h2></td></tr>
+<tr class="memitem:a25678bf8ad7a27cf6a3c1ebffce4bd75" id="r_a25678bf8ad7a27cf6a3c1ebffce4bd75"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a25678bf8ad7a27cf6a3c1ebffce4bd75">DELAY_BOUNCE</a>&#160;&#160;&#160;500</td></tr>
+<tr class="separator:a25678bf8ad7a27cf6a3c1ebffce4bd75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43ff16ab6b9bd24602669bf844cc81f7" id="r_a43ff16ab6b9bd24602669bf844cc81f7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a43ff16ab6b9bd24602669bf844cc81f7">NUM_ROW</a>&#160;&#160;&#160;4</td></tr>
+<tr class="separator:a43ff16ab6b9bd24602669bf844cc81f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9627b919f0c1fa413986d83e6e31c21" id="r_aa9627b919f0c1fa413986d83e6e31c21"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa9627b919f0c1fa413986d83e6e31c21">NUM_COL</a>&#160;&#160;&#160;4</td></tr>
+<tr class="separator:aa9627b919f0c1fa413986d83e6e31c21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abca88c81dbfa15055096c82ce64bdec3" id="r_abca88c81dbfa15055096c82ce64bdec3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abca88c81dbfa15055096c82ce64bdec3">COL_1</a>&#160;&#160;&#160;GPIO_NUM_4</td></tr>
+<tr class="separator:abca88c81dbfa15055096c82ce64bdec3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a761c2cf8ba86114c0270f3a864bf614e" id="r_a761c2cf8ba86114c0270f3a864bf614e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a761c2cf8ba86114c0270f3a864bf614e">COL_2</a>&#160;&#160;&#160;GPIO_NUM_0</td></tr>
+<tr class="separator:a761c2cf8ba86114c0270f3a864bf614e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86300f6d868e839221fa0a84d3d7d392" id="r_a86300f6d868e839221fa0a84d3d7d392"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a86300f6d868e839221fa0a84d3d7d392">COL_3</a>&#160;&#160;&#160;GPIO_NUM_2</td></tr>
+<tr class="separator:a86300f6d868e839221fa0a84d3d7d392"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab81e8a0f84a7fd39cd33472ac117418" id="r_aab81e8a0f84a7fd39cd33472ac117418"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab81e8a0f84a7fd39cd33472ac117418">COL_4</a>&#160;&#160;&#160;GPIO_NUM_15</td></tr>
+<tr class="separator:aab81e8a0f84a7fd39cd33472ac117418"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b25f15f6b759c490ed34aff62979ce5" id="r_a8b25f15f6b759c490ed34aff62979ce5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8b25f15f6b759c490ed34aff62979ce5">ROW_1</a>&#160;&#160;&#160;GPIO_NUM_18</td></tr>
+<tr class="separator:a8b25f15f6b759c490ed34aff62979ce5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac80f8809b30ce24395d5936c4d5f3573" id="r_ac80f8809b30ce24395d5936c4d5f3573"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac80f8809b30ce24395d5936c4d5f3573">ROW_2</a>&#160;&#160;&#160;GPIO_NUM_5</td></tr>
+<tr class="separator:ac80f8809b30ce24395d5936c4d5f3573"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4faf0be1f8118022ceff00d0950214d7" id="r_a4faf0be1f8118022ceff00d0950214d7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4faf0be1f8118022ceff00d0950214d7">ROW_3</a>&#160;&#160;&#160;GPIO_NUM_17</td></tr>
+<tr class="separator:a4faf0be1f8118022ceff00d0950214d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4b7db8743fe7a352546c16133f72987" id="r_ae4b7db8743fe7a352546c16133f72987"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae4b7db8743fe7a352546c16133f72987">ROW_4</a>&#160;&#160;&#160;GPIO_NUM_16</td></tr>
+<tr class="separator:ae4b7db8743fe7a352546c16133f72987"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bf043a322ced8909acfea4bd2d41b53" id="r_a3bf043a322ced8909acfea4bd2d41b53"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3bf043a322ced8909acfea4bd2d41b53">GPIO_INPUT_COLUMNS</a>&#160;&#160;&#160;((1ULL&lt;&lt;<a class="el" href="#abca88c81dbfa15055096c82ce64bdec3">COL_1</a>) | (1ULL&lt;&lt;<a class="el" href="#a761c2cf8ba86114c0270f3a864bf614e">COL_2</a>) | (1ULL&lt;&lt;<a class="el" href="#a86300f6d868e839221fa0a84d3d7d392">COL_3</a>) | (1ULL&lt;&lt;<a class="el" href="#aab81e8a0f84a7fd39cd33472ac117418">COL_4</a>))</td></tr>
+<tr class="separator:a3bf043a322ced8909acfea4bd2d41b53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95e978dfdf96a8d478e59e72ff480a44" id="r_a95e978dfdf96a8d478e59e72ff480a44"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a95e978dfdf96a8d478e59e72ff480a44">GPIO_OUTPUT_ROWS</a>&#160;&#160;&#160;((1ULL&lt;&lt;<a class="el" href="#a8b25f15f6b759c490ed34aff62979ce5">ROW_1</a>) | (1ULL&lt;&lt;<a class="el" href="#ac80f8809b30ce24395d5936c4d5f3573">ROW_2</a>) | (1ULL&lt;&lt;<a class="el" href="#a4faf0be1f8118022ceff00d0950214d7">ROW_3</a>) | (1ULL&lt;&lt;<a class="el" href="#ae4b7db8743fe7a352546c16133f72987">ROW_4</a>))</td></tr>
+<tr class="separator:a95e978dfdf96a8d478e59e72ff480a44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54710c21c0488c161cd2c1aed4768540" id="r_a54710c21c0488c161cd2c1aed4768540"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a54710c21c0488c161cd2c1aed4768540">KEYPAD_SEND</a>&#160;&#160;&#160;'#'</td></tr>
+<tr class="separator:a54710c21c0488c161cd2c1aed4768540"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48234d383368ea612d5db143dadeffb6" id="r_a48234d383368ea612d5db143dadeffb6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a48234d383368ea612d5db143dadeffb6">KEYPAD_CLEAR</a>&#160;&#160;&#160;'C'</td></tr>
+<tr class="separator:a48234d383368ea612d5db143dadeffb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a131083cf0d8267fb3cd229b568857d77" id="r_a131083cf0d8267fb3cd229b568857d77"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a131083cf0d8267fb3cd229b568857d77">KEYPAD_BUFFER_LEN</a>&#160;&#160;&#160;30</td></tr>
+<tr class="separator:a131083cf0d8267fb3cd229b568857d77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Funciones</h2></td></tr>
+<tr class="memitem:ac001bc83b5bbdb4263b3e9914299fb20" id="r_ac001bc83b5bbdb4263b3e9914299fb20"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac001bc83b5bbdb4263b3e9914299fb20">keypad_task</a> (void *params)</td></tr>
+<tr class="separator:ac001bc83b5bbdb4263b3e9914299fb20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4ea8948d94bc4629b625490495ffe27" id="r_ad4ea8948d94bc4629b625490495ffe27"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad4ea8948d94bc4629b625490495ffe27">keypad_init</a> (<a class="el" href="base_8h.html#a60baaa39633b6a9a3668a4158dae6b13">cb_get_key</a> cb_key_pressed, <a class="el" href="base_8h.html#a399593a3e3b494978521678ccee9d454">cb_get_buffer</a> <a class="el" href="base_8h.html#a399593a3e3b494978521678ccee9d454">cb_get_buffer</a>, <a class="el" href="base_8h.html#a5107849cd4af0dba9fa4f226f7f46d8b">cb_clear</a> fclear)</td></tr>
+<tr class="memdesc:ad4ea8948d94bc4629b625490495ffe27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Teclado compatible con callbacks. Utiliza una tarea en segundo plano para el polling.  <br /></td></tr>
+<tr class="separator:ad4ea8948d94bc4629b625490495ffe27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a00a834f84ab5510b9a342b0956e4bb58" id="r_a00a834f84ab5510b9a342b0956e4bb58"><td class="memItemLeft" align="right" valign="top">gpio_num_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00a834f84ab5510b9a342b0956e4bb58">rows</a> [<a class="el" href="#a43ff16ab6b9bd24602669bf844cc81f7">NUM_ROW</a>] = { <a class="el" href="#a8b25f15f6b759c490ed34aff62979ce5">ROW_1</a>, <a class="el" href="#ac80f8809b30ce24395d5936c4d5f3573">ROW_2</a>, <a class="el" href="#a4faf0be1f8118022ceff00d0950214d7">ROW_3</a>, <a class="el" href="#ae4b7db8743fe7a352546c16133f72987">ROW_4</a> }</td></tr>
+<tr class="separator:a00a834f84ab5510b9a342b0956e4bb58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71e0ec624b6a674a0bf4182bcd76ef66" id="r_a71e0ec624b6a674a0bf4182bcd76ef66"><td class="memItemLeft" align="right" valign="top">gpio_num_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71e0ec624b6a674a0bf4182bcd76ef66">cols</a> [<a class="el" href="#aa9627b919f0c1fa413986d83e6e31c21">NUM_COL</a>] = { <a class="el" href="#abca88c81dbfa15055096c82ce64bdec3">COL_1</a>, <a class="el" href="#a761c2cf8ba86114c0270f3a864bf614e">COL_2</a>, <a class="el" href="#a86300f6d868e839221fa0a84d3d7d392">COL_3</a>, <a class="el" href="#aab81e8a0f84a7fd39cd33472ac117418">COL_4</a> }</td></tr>
+<tr class="separator:a71e0ec624b6a674a0bf4182bcd76ef66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae10ebbb796c11bebb952293ebd499088" id="r_ae10ebbb796c11bebb952293ebd499088"><td class="memItemLeft" align="right" valign="top">char const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae10ebbb796c11bebb952293ebd499088">KEYS</a> [<a class="el" href="#a43ff16ab6b9bd24602669bf844cc81f7">NUM_ROW</a>][<a class="el" href="#aa9627b919f0c1fa413986d83e6e31c21">NUM_COL</a>]</td></tr>
+<tr class="separator:ae10ebbb796c11bebb952293ebd499088"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Documentación de «define»</h2>
+<a id="abca88c81dbfa15055096c82ce64bdec3" name="abca88c81dbfa15055096c82ce64bdec3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abca88c81dbfa15055096c82ce64bdec3">&#9670;&#160;</a></span>COL_1</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define COL_1&#160;&#160;&#160;GPIO_NUM_4</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a761c2cf8ba86114c0270f3a864bf614e" name="a761c2cf8ba86114c0270f3a864bf614e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a761c2cf8ba86114c0270f3a864bf614e">&#9670;&#160;</a></span>COL_2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define COL_2&#160;&#160;&#160;GPIO_NUM_0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a86300f6d868e839221fa0a84d3d7d392" name="a86300f6d868e839221fa0a84d3d7d392"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86300f6d868e839221fa0a84d3d7d392">&#9670;&#160;</a></span>COL_3</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define COL_3&#160;&#160;&#160;GPIO_NUM_2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aab81e8a0f84a7fd39cd33472ac117418" name="aab81e8a0f84a7fd39cd33472ac117418"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab81e8a0f84a7fd39cd33472ac117418">&#9670;&#160;</a></span>COL_4</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define COL_4&#160;&#160;&#160;GPIO_NUM_15</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a25678bf8ad7a27cf6a3c1ebffce4bd75" name="a25678bf8ad7a27cf6a3c1ebffce4bd75"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25678bf8ad7a27cf6a3c1ebffce4bd75">&#9670;&#160;</a></span>DELAY_BOUNCE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DELAY_BOUNCE&#160;&#160;&#160;500</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3bf043a322ced8909acfea4bd2d41b53" name="a3bf043a322ced8909acfea4bd2d41b53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3bf043a322ced8909acfea4bd2d41b53">&#9670;&#160;</a></span>GPIO_INPUT_COLUMNS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GPIO_INPUT_COLUMNS&#160;&#160;&#160;((1ULL&lt;&lt;<a class="el" href="#abca88c81dbfa15055096c82ce64bdec3">COL_1</a>) | (1ULL&lt;&lt;<a class="el" href="#a761c2cf8ba86114c0270f3a864bf614e">COL_2</a>) | (1ULL&lt;&lt;<a class="el" href="#a86300f6d868e839221fa0a84d3d7d392">COL_3</a>) | (1ULL&lt;&lt;<a class="el" href="#aab81e8a0f84a7fd39cd33472ac117418">COL_4</a>))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a95e978dfdf96a8d478e59e72ff480a44" name="a95e978dfdf96a8d478e59e72ff480a44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95e978dfdf96a8d478e59e72ff480a44">&#9670;&#160;</a></span>GPIO_OUTPUT_ROWS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GPIO_OUTPUT_ROWS&#160;&#160;&#160;((1ULL&lt;&lt;<a class="el" href="#a8b25f15f6b759c490ed34aff62979ce5">ROW_1</a>) | (1ULL&lt;&lt;<a class="el" href="#ac80f8809b30ce24395d5936c4d5f3573">ROW_2</a>) | (1ULL&lt;&lt;<a class="el" href="#a4faf0be1f8118022ceff00d0950214d7">ROW_3</a>) | (1ULL&lt;&lt;<a class="el" href="#ae4b7db8743fe7a352546c16133f72987">ROW_4</a>))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a131083cf0d8267fb3cd229b568857d77" name="a131083cf0d8267fb3cd229b568857d77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a131083cf0d8267fb3cd229b568857d77">&#9670;&#160;</a></span>KEYPAD_BUFFER_LEN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KEYPAD_BUFFER_LEN&#160;&#160;&#160;30</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a48234d383368ea612d5db143dadeffb6" name="a48234d383368ea612d5db143dadeffb6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48234d383368ea612d5db143dadeffb6">&#9670;&#160;</a></span>KEYPAD_CLEAR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KEYPAD_CLEAR&#160;&#160;&#160;'C'</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a54710c21c0488c161cd2c1aed4768540" name="a54710c21c0488c161cd2c1aed4768540"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54710c21c0488c161cd2c1aed4768540">&#9670;&#160;</a></span>KEYPAD_SEND</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define KEYPAD_SEND&#160;&#160;&#160;'#'</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa9627b919f0c1fa413986d83e6e31c21" name="aa9627b919f0c1fa413986d83e6e31c21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9627b919f0c1fa413986d83e6e31c21">&#9670;&#160;</a></span>NUM_COL</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define NUM_COL&#160;&#160;&#160;4</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a43ff16ab6b9bd24602669bf844cc81f7" name="a43ff16ab6b9bd24602669bf844cc81f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43ff16ab6b9bd24602669bf844cc81f7">&#9670;&#160;</a></span>NUM_ROW</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define NUM_ROW&#160;&#160;&#160;4</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8b25f15f6b759c490ed34aff62979ce5" name="a8b25f15f6b759c490ed34aff62979ce5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b25f15f6b759c490ed34aff62979ce5">&#9670;&#160;</a></span>ROW_1</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ROW_1&#160;&#160;&#160;GPIO_NUM_18</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac80f8809b30ce24395d5936c4d5f3573" name="ac80f8809b30ce24395d5936c4d5f3573"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac80f8809b30ce24395d5936c4d5f3573">&#9670;&#160;</a></span>ROW_2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ROW_2&#160;&#160;&#160;GPIO_NUM_5</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4faf0be1f8118022ceff00d0950214d7" name="a4faf0be1f8118022ceff00d0950214d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4faf0be1f8118022ceff00d0950214d7">&#9670;&#160;</a></span>ROW_3</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ROW_3&#160;&#160;&#160;GPIO_NUM_17</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae4b7db8743fe7a352546c16133f72987" name="ae4b7db8743fe7a352546c16133f72987"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4b7db8743fe7a352546c16133f72987">&#9670;&#160;</a></span>ROW_4</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ROW_4&#160;&#160;&#160;GPIO_NUM_16</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Documentación de funciones</h2>
+<a id="ad4ea8948d94bc4629b625490495ffe27" name="ad4ea8948d94bc4629b625490495ffe27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4ea8948d94bc4629b625490495ffe27">&#9670;&#160;</a></span>keypad_init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void keypad_init </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="base_8h.html#a60baaa39633b6a9a3668a4158dae6b13">cb_get_key</a></td>          <td class="paramname"><span class="paramname"><em>cb_key_pressed</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="base_8h.html#a399593a3e3b494978521678ccee9d454">cb_get_buffer</a></td>          <td class="paramname"><span class="paramname"><em>cb_get_buffer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="base_8h.html#a5107849cd4af0dba9fa4f226f7f46d8b">cb_clear</a></td>          <td class="paramname"><span class="paramname"><em>fclear</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Teclado compatible con callbacks. Utiliza una tarea en segundo plano para el polling. </p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cb_key_pressed</td><td>Callback cuando se presiona una tecla, recibe un char como parámetro </td></tr>
+    <tr><td class="paramname">cb_get_buffer</td><td>Callback cuando se presiona la tecla, recibe el buffer como parámetro </td></tr>
+    <tr><td class="paramname">fclear</td><td>Callback que se llama cuando se presiona tecla C, se borra el buffer </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac001bc83b5bbdb4263b3e9914299fb20" name="ac001bc83b5bbdb4263b3e9914299fb20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac001bc83b5bbdb4263b3e9914299fb20">&#9670;&#160;</a></span>keypad_task()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void keypad_task </td>
+          <td>(</td>
+          <td class="paramtype">void *</td>          <td class="paramname"><span class="paramname"><em>params</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Documentación de variables</h2>
+<a id="a71e0ec624b6a674a0bf4182bcd76ef66" name="a71e0ec624b6a674a0bf4182bcd76ef66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71e0ec624b6a674a0bf4182bcd76ef66">&#9670;&#160;</a></span>cols</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gpio_num_t cols[<a class="el" href="#aa9627b919f0c1fa413986d83e6e31c21">NUM_COL</a>] = { <a class="el" href="#abca88c81dbfa15055096c82ce64bdec3">COL_1</a>, <a class="el" href="#a761c2cf8ba86114c0270f3a864bf614e">COL_2</a>, <a class="el" href="#a86300f6d868e839221fa0a84d3d7d392">COL_3</a>, <a class="el" href="#aab81e8a0f84a7fd39cd33472ac117418">COL_4</a> }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae10ebbb796c11bebb952293ebd499088" name="ae10ebbb796c11bebb952293ebd499088"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae10ebbb796c11bebb952293ebd499088">&#9670;&#160;</a></span>KEYS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char const KEYS[<a class="el" href="#a43ff16ab6b9bd24602669bf844cc81f7">NUM_ROW</a>][<a class="el" href="#aa9627b919f0c1fa413986d83e6e31c21">NUM_COL</a>]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Valor inicial:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">                          { <span class="charliteral">&#39;1&#39;</span>, <span class="charliteral">&#39;2&#39;</span> , <span class="charliteral">&#39;3&#39;</span> ,<span class="charliteral">&#39;A&#39;</span> },</div>
+<div class="line">                          { <span class="charliteral">&#39;4&#39;</span>, <span class="charliteral">&#39;5&#39;</span> , <span class="charliteral">&#39;6&#39;</span> ,<span class="charliteral">&#39;B&#39;</span> },</div>
+<div class="line">                          { <span class="charliteral">&#39;7&#39;</span>, <span class="charliteral">&#39;8&#39;</span> , <span class="charliteral">&#39;9&#39;</span> ,<span class="charliteral">&#39;C&#39;</span> },</div>
+<div class="line">                          { <span class="charliteral">&#39;*&#39;</span>, <span class="charliteral">&#39;0&#39;</span> , <span class="charliteral">&#39;#&#39;</span> ,<span class="charliteral">&#39;D&#39;</span> },</div>
+<div class="line">                         }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a00a834f84ab5510b9a342b0956e4bb58" name="a00a834f84ab5510b9a342b0956e4bb58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00a834f84ab5510b9a342b0956e4bb58">&#9670;&#160;</a></span>rows</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">gpio_num_t rows[<a class="el" href="#a43ff16ab6b9bd24602669bf844cc81f7">NUM_ROW</a>] = { <a class="el" href="#a8b25f15f6b759c490ed34aff62979ce5">ROW_1</a>, <a class="el" href="#ac80f8809b30ce24395d5936c4d5f3573">ROW_2</a>, <a class="el" href="#a4faf0be1f8118022ceff00d0950214d7">ROW_3</a>, <a class="el" href="#ae4b7db8743fe7a352546c16133f72987">ROW_4</a> }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generado por&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.11.0
+</small></address>
+</div><!-- doc-content -->
+</body>
+</html>
