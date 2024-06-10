@@ -35,6 +35,7 @@
 
 
 
-#define REQUEST_FORMAT    "\n[%s] %" PRIu64 ""
+#define REQUEST_FORMAT           "\n[%s] %" PRIu64 ""
+#define REQUEST_FORMAT_KEYPAD    "\n[%s] %s"
 
 #endif

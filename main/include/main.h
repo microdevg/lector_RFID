@@ -3,13 +3,13 @@
 
 
 
-
+#include <stdio.h>
+#include <stdlib.h>
 #include "rc522.h"
 #include "mqtt.h"
 #include "wifi.h"
 #include "wifi_credentials.h"
 #include "config.h"
-#include "driver/gpio.h"
 
 
 
@@ -61,11 +61,7 @@ static void mqtt_connected();
 static void callback_wifi_connected();
 
 
-/**
- * @brief Configuración del gpio que maneja el LED de la placa.
- * 
- */
-static void lec_config();
+
 
 /**
  * @brief Function que se la tarjeta RFID leída es de un USUARIO AUTORIZADO.
