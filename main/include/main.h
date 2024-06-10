@@ -18,20 +18,21 @@
 
 
 
-// Configuración del periférico.
+/**
+ * @brief Estructura de configuración del puerto SPI utilizado por el lector de tarjetas.
+ * 
+ */
 rc522_config_t config = {
-    .spi.host = VSPI_HOST,
-    .spi.miso_gpio = 21,
-    .spi.mosi_gpio = 23, 
-    .spi.sck_gpio = 19,
-    .spi.sda_gpio = 22,
-    .spi.device_flags= SPI_DEVICE_HALFDUPLEX
+    .spi.host = VSPI_HOST,                          /*<! Host utilizado. El SPI0 y SP1 no están disables para el usuario */  
+    .spi.miso_gpio = 21,                            /*<!  MISO */
+    .spi.mosi_gpio = 23,                            /*<!  MOSI */
+    .spi.sck_gpio = 19,                             /*<!  SCK */
+    .spi.sda_gpio = 22,                             /*<!  SDA */
+    .spi.device_flags= SPI_DEVICE_HALFDUPLEX        /*<!  Flags de configuración */
 };
 
 
 
-// Defino declaraciones de funciones. 
-//La implementación se realiza en la parte inferior del archivo.
 
 
 
@@ -48,7 +49,7 @@ static void get_data( char* data,  char* topic);
 
 
 /**
- * @brief Funcion callback. Se llama cuando el dispositivo se conecto al servidor MQTT.
+ * @brief Función callback. Se llama cuando el dispositivo se conecto al servidor MQTT.
  * 
  */
 static void mqtt_connected();

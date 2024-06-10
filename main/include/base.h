@@ -11,7 +11,6 @@
 #include <inttypes.h>
 
 
-
 /**
  * @brief Callback de recepción de código RFID.
  * 
@@ -32,6 +31,26 @@ typedef void (*callback_data_t)(char* data, char* topic);
  */
 typedef void (*esp_callback_t)(void);
 
+
+/**
+ * @brief Callback que recibe un char de parámetro
+ * 
+ */
+typedef void (*cb_get_key)(char key);
+
+
+/**
+ * @brief Callback que recibe un buffer char de parámetro
+ * 
+ */
+typedef void (*cb_get_buffer)(char* buffer);
+
+
+/**
+ * @brief Callback que no recibe parámetro
+ * 
+ */
+typedef void (*cb_clear)();
 
 #define CHECK_RUN_F(f)            if(f)f()     // si f es distinta de NULL, llamar
 
