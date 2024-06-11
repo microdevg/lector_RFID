@@ -2,7 +2,7 @@
 
 En este proyecto tenemos un lector de tarjetas RFID que publica las tarjetas leídas en un cierto tópico. Un servicio Backend recibe esa publicación, verifica que el código RFID pertenezca a un usuario autorizado y publica una respuesta.
 
-### Documentacion: [link](https://exquisite-kangaroo-2adbdb.netlify.app/files.html)
+### Documentacion: [DOC](https://exquisite-kangaroo-2adbdb.netlify.app/files.html)
 
 ## Conexión del modulo RFID    
 

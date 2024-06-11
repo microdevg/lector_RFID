@@ -3,5 +3,5 @@ sdkconfig
 sdkconfig.old
 .vscode
 .**/
-
+DOC/
 wifi_credentials.h

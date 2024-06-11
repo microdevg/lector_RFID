@@ -13,6 +13,10 @@
  * @param data_received     Callback de recepción de datos. Se llama cuando se reciben datos desde tópicos suscritos.
  * @return esp_err_t  Retorna ESP_OK si todo sale bien.
  */
+
+
+
+
 esp_err_t mqtt_init(const char* uri, esp_callback_t conn, esp_callback_t disconn,callback_data_t data_received);
 
 

@@ -19,7 +19,7 @@
 
 
 /**
- * @brief Estructura de configuración del puerto SPI utilizado por el lector de tarjetas.
+ * @brief Nueva estructura de configuración del puerto SPI utilizado por el lector de tarjetas.
  * 
  */
 rc522_config_t config = {
