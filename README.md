@@ -83,3 +83,4 @@ En caso de que el __PRODUCT_ID__ coincida, dependiendo del topico realizaremos l
 
 ## Backend 
 El __Backend__ sera el encargado de recibir los mensajes provenientes de los dispositivos ESP32, verificar si el código `RFID` pertenece a un usuario autorizado  o no. En caso positivo el __Backend__ publicara como respuesta el `PRODUCT_ID` en el tópico `{PRODUCT_ID}/RES/OK`, caso contrario lo hara en `{PRODUCT_ID}/RES/FAIL`. En caso de error imprevisto en el servidor el mensaje sera publicado en `{PRODUCT_ID}/RES/UNKNOWN`.
+#### Link al repositorio del backend: [link](https://github.com/microdevg/backend_simple)
