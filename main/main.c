@@ -41,6 +41,7 @@ static void get_rfid(uint64_t rfid){
 
 
 static void get_data( char* data,  char* topic){
+    
     printf("\n[%s] %s\n",topic,data);
     //Primer verifico que la respuesta sea para mi con el código PRODUCT_ID
     // Si no se cumple la igualad retorno, el mensaje no es para mi lector RFID
